@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+  <h1>Lista de Carros</h1>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Marca</th>
+        <th>Modelo</th>
+        <th>Ano</th>
+        <th>Cor</th>
+        <th>Preço</th>
+      </tr>
+    </thead>
+    <a class="btn btn-primary" href="{% url 'inventory:carro-create' %}">Cadastrar Novo Carro</a>
+    <tbody>
+      {% for carro in carros %}
+      <tr>
+        <td>{{ carro.marca }}</td>
+        <td>{{ carro.modelo }}</td>
+        <td>{{ carro.ano }}</td>
+        <td>{{ carro.cor }}</td>
+        <td>{{ carro.preco }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

@@ -1,0 +1,38 @@
+<!-- carros_disponiveis.html -->
+
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+  <head>
+    <!-- ... -->
+    <link rel="stylesheet" href="{% static 'css/carros.css' %}">
+    <style>
+      /* Outras regras de estilo específicas para este arquivo HTML */
+      h1 {
+          text-align: center;
+        }
+    </style>
+
+  </head>
+  
+
+  <h1>Carros Disponíveis</h1>
+  {% if carros %}
+    <ul>
+      {% for carro in carros %}
+      <div class="carro-item">
+        <h3>{{ carro.modelo }}</h3>
+        <p>Marca: {{ carro.marca }}</p>
+        <p>Ano: {{ carro.ano }}</p>
+        <p>Preço: {{ carro.preco }}</p>
+        <a href="{% url 'inventory:detalhes_carro' carro.id %}" class="btn btn-primary">Detalhes</a>
+      </div>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>Nenhum carro disponível no momento.</p>
+  {% endif %}
+{% endblock %}
+
+
+  
