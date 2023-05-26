@@ -2,23 +2,28 @@
 
 {% block content %}
 
- 
+<script>
+    $(document).ready(function () {
+        $('.date-input').mask('9999-99-99');
+    });
+</script>
+
 <h1>Cadastro de Aluguel</h1>
 
-  <form method="POST">
+<form method="POST">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit" class="btn btn-primary">Salvar</button>
-  </form>
+</form>
 
-  <h1>Lista de Alugueis</h1>
+<h1>Lista de Alugueis</h1>
 
-    <ul>
-        {% for aluguel in alugueis %}
-            <li>{{ aluguel.loja}}</a></li>
-        {% empty %}
-            <li>Nenhum registro encontrado</li>
-        {% endfor %}
-    </ul>
+<ul>
+    {% for aluguel in alugueis %}
+    <li>{{ aluguel.loja}}</a></li>
+    {% empty %}
+    <li>Nenhum registro encontrado</li>
+    {% endfor %}
+</ul>
 
 {% endblock %}

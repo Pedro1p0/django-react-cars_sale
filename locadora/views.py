@@ -49,7 +49,7 @@ def ticket(request):
                 'ticket': ticket,
                 'form': form,
             }
-            return render(request, './locadora/lista_ticket.html', context)
+            return render(request, './locadora/criar_ticket.html', context)
 
 
 """ def update(request, pessoa_id):
