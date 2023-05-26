@@ -60,7 +60,7 @@ ROOT_URLCONF = "django_react.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / "templates", "usuarios/templates"],
+        "DIRS": [BASE_DIR / "templates", "usuarios/templates", "locadora/templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [

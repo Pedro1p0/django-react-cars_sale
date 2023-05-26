@@ -39,6 +39,7 @@ class Aluguel(models.Model):
     data_retirada = models.DateTimeField()
     data_entrega = models.DateTimeField()
     hash_aleatoria = models.CharField(max_length=10, unique=True)
+    carro = models.ForeignKey(Carro, on_delete=models.CASCADE)
 
     def save(self, *args, **kwargs):
         if not self.hash_aleatoria:

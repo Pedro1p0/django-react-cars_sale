@@ -7,5 +7,6 @@ urlpatterns = [
     path("home/", views.main, name="pagina_principal"),
     path("venda/", views.compra_lista, name="compra_lista"),
     path("locacao/", views.locacao_lista, name="locacao_lista"),
-    path("create/", views.ticket, name="aluguel_criar"),
+    path("ticket/criar/", views.TicketCreateView.as_view(), name="aluguel_criar"),
+    path("ticket/lista/",views.TicketListView.as_view(), name="aluguel_list"),
 ]

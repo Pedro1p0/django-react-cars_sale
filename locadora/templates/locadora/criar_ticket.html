@@ -2,11 +2,14 @@
 
 {% block content %}
 
-<script>
-    $(document).ready(function () {
-        $('.date-input').mask('9999-99-99');
-    });
-</script>
+<head>
+    <!-- ... -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tempusdominus-bootstrap-4@5.1.2/css/tempusdominus-bootstrap-4.min.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/momentjs/2.29.1/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tempusdominus-bootstrap-4@5.1.2/js/tempusdominus-bootstrap-4.min.js"></script>
+  </head>
+
 
 <h1>Cadastro de Aluguel</h1>
 
@@ -15,15 +18,5 @@
     {{ form.as_p }}
     <button type="submit" class="btn btn-primary">Salvar</button>
 </form>
-
-<h1>Lista de Alugueis</h1>
-
-<ul>
-    {% for aluguel in alugueis %}
-    <li>{{ aluguel.loja}}</a></li>
-    {% empty %}
-    <li>Nenhum registro encontrado</li>
-    {% endfor %}
-</ul>
 
 {% endblock %}
