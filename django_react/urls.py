@@ -24,4 +24,5 @@ urlpatterns = [
     path("usuarios/", include("usuarios.urls")),
     path("usuarios/", include("django.contrib.auth.urls")),
     path("inventory/", include("inventory.urls")),
+    path("locadora/", include("locadora.urls")),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
