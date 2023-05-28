@@ -10,4 +10,5 @@ urlpatterns = [
     path("ticket/criar/", views.TicketCreateView.as_view(), name="aluguel_criar"),
     path("ticket/lista/",views.TicketListView.as_view(), name="aluguel_list"),
     path('ticket/editar/<int:ticket_id>/', views.TicketUpdateView.as_view(), name='aluguel_editar'),
+    path('ticket/deletar/<int:ticket_id>/', views.TicketDeleteView.as_view(), name='aluguel_excluir'),
 ]

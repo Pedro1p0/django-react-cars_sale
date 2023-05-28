@@ -2,32 +2,53 @@
 
 {% block content %}
 
-  <h1>Lista de tickets de aluguel</h1>
 
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Cliente</th>
-        <th>Data de retirada</th>
-        <th>Data de entrega</th>
-        <th>Carro</th>
-        <th>Loja</th>
-        <th>Configurações</th>
-        
-      </tr>
-    </thead>
-    <a class="btn btn-primary" href="{% url 'locadora:aluguel_criar' %}">Cadastrar Novo Ticket</a>
-    <tbody>
-      {% for ticket in tickets %}
-      <tr>
-        <td>{{ ticket.cliente }}</td>
-        <td>{{ ticket.data_entrega }}</td>
-        <td>{{ ticket.data_retirada }}</td>
-        <td>{{ ticket.carro }}</td>
-        <td>{{ ticket.loja }}</td>
-        <td><a class="btn btn-warning" href="{% url 'locadora:aluguel_editar' ticket_id=ticket.id %}">Editar</a>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+<script>
+  function confirmarExclusao() {
+    if (confirm('Tem certeza que deseja excluir este ticket?')) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+</script>
+
+<h1>Lista de tickets de aluguel</h1>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Cliente</th>
+      <th>Data de retirada</th>
+      <th>Data de entrega</th>
+      <th>Carro</th>
+      <th>Configurações</th>
+
+    </tr>
+  </thead>
+  <a class="btn btn-primary" href="{% url 'locadora:aluguel_criar' %}">Cadastrar Novo Ticket</a>
+  <tbody>
+    {% for ticket in tickets %}
+    <tr>
+      <td>{{ ticket.cliente }}</td>
+      <td>{{ ticket.data_entrega }}</td>
+      <td>{{ ticket.data_retirada }}</td>
+      <td>{{ ticket.carro }}</td>
+      <td style="display: flex; justify-content: space-around;">
+        <div><a class="btn btn-warning" href="{% url 'locadora:aluguel_editar' ticket_id=ticket.id %}">Editar</a>
+        </div>
+        <div>
+          <form action="{% url 'locadora:aluguel_excluir' ticket_id=ticket.id %}" method="post"
+            onsubmit="return confirmarExclusao()">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Excluir</button>
+          </form>
+      </td>
+
+      </div>
+
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
 {% endblock %}
