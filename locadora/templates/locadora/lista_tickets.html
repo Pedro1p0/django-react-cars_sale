@@ -11,6 +11,8 @@
         <th>Data de retirada</th>
         <th>Data de entrega</th>
         <th>Carro</th>
+        <th>Loja</th>
+        <th>Configurações</th>
         
       </tr>
     </thead>
@@ -22,7 +24,8 @@
         <td>{{ ticket.data_entrega }}</td>
         <td>{{ ticket.data_retirada }}</td>
         <td>{{ ticket.carro }}</td>
-
+        <td>{{ ticket.loja }}</td>
+        <td><a class="btn btn-warning" href="{% url 'locadora:aluguel_editar' ticket_id=ticket.id %}">Editar</a>
       </tr>
       {% endfor %}
     </tbody>

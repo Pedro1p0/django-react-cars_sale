@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from inventory.models import Carro
 from django.views.generic import ListView
 from .forms import AluguelForm
@@ -69,7 +69,7 @@ class TicketCreateView(View):
             return HttpResponse(content, content_type='text/html')
 
         initial_data = {
-            'loja': funcionario.loja,
+            'loja':funcionario.loja,
             'data_retirada': datetime.now().strftime('%Y-%m-%d %H:%M'),
             'data_entrega': datetime.now().strftime('%Y-%m-%d %H:%M'),
         }
@@ -80,10 +80,30 @@ class TicketCreateView(View):
         
         form = AluguelForm(request.POST)
         if form.is_valid():
-            form.save()
+            aluguel = form.save(commit=False)  # Não salvar no banco de dados ainda
+            funcionario = FuncionarioProfile.objects.filter(user=request.user).first()
+            if funcionario:
+                aluguel.loja = funcionario.loja
+            aluguel.save()  # Salvar no banco de dados
             return redirect(reverse('locadora:aluguel_list'))
         return render(request, 'locadora/criar_ticket.html', {'form': form})
 
+
+class TicketUpdateView(View):
+    template_name = 'locadora/editar_ticket.html'
+
+    def get(self, request, ticket_id):
+        ticket = get_object_or_404(Aluguel, id=ticket_id)
+        form = AluguelForm(instance=ticket)
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, ticket_id):
+        ticket = get_object_or_404(Aluguel, id=ticket_id)
+        form = AluguelForm(request.POST, instance=ticket)
+        if form.is_valid():
+            form.save()
+            return redirect(reverse('locadora:aluguel_list'))
+        return render(request, self.template_name, {'form': form})
 
 """ def update(request, pessoa_id):
     if request.method == 'GET':
