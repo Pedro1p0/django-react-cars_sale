@@ -1,6 +1,6 @@
 from django.urls import path
-from .consumers import CarrosDisponiveisConsumer
+from .consumers import DashboardAluguelConsumer
 
 websocket_urlpatterns = [
-    path("ws/<str:carros_disponiveis_slug>/", CarrosDisponiveisConsumer.as_asgi()),
+    path("ws/<str:dashboard_slug>/", DashboardAluguelConsumer.as_asgi()),
 ]

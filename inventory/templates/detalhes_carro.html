@@ -24,7 +24,7 @@
       <p>Preço: {{ carro.preco }}</p>
       <p>Cor: {{ carro.cor }}</p>
       {% if carro.locacao %}
-      <a href="#" class="btn btn-primary">Alugue aqui</a>
+      <a href="{% url 'locadora:aluguel_criar' %}" class="btn btn-primary">Alugue aqui</a>
       {% endif %}
       {% if carro.venda %}
       <a href="#" class="btn btn-primary">Compre aqui</a>

@@ -2,13 +2,14 @@ from channels.generic.websocket import AsyncJsonWebsocketConsumer
 import json
 
 
-class CarrosDisponiveisConsumer(AsyncJsonWebsocketConsumer):
+class DashboardAluguelConsumer(AsyncJsonWebsocketConsumer):
+
     async def connect(self):
-        print("conection sucessfull")
+        print("connection sucessfull")
         await self.accept()
 
-    async def disconnect(self, code):
-        print(f"Conection close due code {code}")
+    async def disconnect(self, close_code):
+        print(f"Conection close due code {close_code}")
 
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
@@ -17,4 +18,7 @@ class CarrosDisponiveisConsumer(AsyncJsonWebsocketConsumer):
 
         print(message, sender)
 
-        await self.send(text_data=json.dumps({"message": message, "sender": sender}))
+        await self.send(text_data=json.dumps({
+            "message": message,
+            "sender": sender
+        }))

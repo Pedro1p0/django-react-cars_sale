@@ -82,6 +82,9 @@ class TicketCreateView(View):
         if form.is_valid():
             aluguel = form.save(commit=False)  # Não salvar no banco de dados ainda
             funcionario = FuncionarioProfile.objects.filter(user=request.user).first()
+            carro = get_object_or_404(Carro, pk=aluguel.carro.pk)  # Obter o objeto de carro pelo ID
+            carro.disponibilidade = False  # Atualizar a disponibilidade do carro
+            carro.save()
             if funcionario:
                 aluguel.loja = funcionario.loja
             aluguel.save()  # Salvar no banco de dados

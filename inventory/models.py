@@ -51,7 +51,7 @@ class Carro(models.Model):
 
     locacao = models.BooleanField(default=False)
 
-    
+    placa = models.CharField(max_length=7)
 
     def __str__(self):
         if self.disponibilidade == True:
@@ -59,6 +59,6 @@ class Carro(models.Model):
         else:
             Disp = "Indisponivel"
 
-        return f"{self.marca} {self.modelo} ({self.ano}) - {Disp}"
+        return f"{self.marca} {self.modelo} ({self.ano}) - {Disp} - Placa {self.placa}"
 
     

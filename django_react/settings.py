@@ -60,7 +60,7 @@ ROOT_URLCONF = "django_react.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / "templates", "usuarios/templates", "locadora/templates"],
+        "DIRS": [BASE_DIR / "templates", "usuarios/templates", "locadora/templates","websocket/templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -136,8 +136,10 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 CHANNEL_LAYERS = {
     "default": {
-        "BACKEND": "channels_redis.django_react.RedisChannelLayer",
-        "CONFIG": {"hosts": [("127.0.0.1"), 6379]},
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
     },
 }
 
