@@ -15,6 +15,10 @@ from channels.auth import AuthMiddlewareStack
 from django.urls import path
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "django_react.settings")
+#print('Antes do MQTT')
+#from websocket import mqtt
+#mqtt.setup_and_activate_mqtt()
+#print('Depois do mqtt')
 django_asgi_app = get_asgi_application()
 
 import websocket.routing

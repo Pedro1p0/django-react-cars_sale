@@ -9,6 +9,6 @@ socket.onmessage = function(e){
 socket.onopen = function(e){
     socket.send(JSON.stringify({
         'message':'Hello from Client',
-        'sender': 'teste sender'
+        'sender': 'qualquer coisa sendo enviada para o servidor'
     }));
 };
