@@ -57,6 +57,9 @@
           <li class="nav-item">
             <a class="nav-link" href="{% url 'locadora:aluguel_list' %}">Lista de alugueis</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'websocket:redirect_dashboard' %}">Dashboard de alugueis ativos</a>
+          </li>
 
           {% endif %}
           {% if user.is_authenticated %}

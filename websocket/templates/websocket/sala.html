@@ -5,4 +5,11 @@
 
 Ola mundo SALA
 
+{% if qs %}
+    <ul>
+        {% for loja in loja_qs %}
+          <li>loja.name</li>
+        {% endfor %}
+    </ul>
+{% endif %}
 {% endblock %}
