@@ -23,10 +23,10 @@ client.connect(broker, port)
 # Loop de publicação de mensagens
 while True:
     # Gera uma mensagem aleatória
-    mensagem = 'Mensagem aleatória: ' + str(random.randint(1, 100))
+    mensagem = 'Mensagem aleatoria: ' + str(random.randint(1, 100))
     
     # Publica a mensagem no tópico
-    client.publish(topic, mensagem)
+    client.publish(topic, mensagem, placa_do_carro)
     
     # Aguarda 5 segundos
     time.sleep(5)

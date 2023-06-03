@@ -2,9 +2,67 @@
 {% load static %}
 
 {% block scripts %}
-    <script src="{% static 'websocket/dashboard_aluguel.js' %}"></script>
+    
+    <script>
+        // Função para receber e exibir as mensagens MQTT
+        function receiveMessage(message) {
+            var messageContainer = document.getElementById('message-container');
+            var newMessage = document.createElement('p');
+            newMessage.textContent = message;
+            messageContainer.appendChild(newMessage);
+        }
+
+        // Conectar ao WebSocket
+        console.log("Olá mundo");
+
+        const socket = new WebSocket('ws://' + window.location.host + '/ws/loja1/'); 
+
+        socket.onmessage = function(e) {
+            console.log('Server: ' + e.data);
+            displayMessage(e.data); // Exibir a mensagem na página
+        };
+
+        socket.onopen = function(e) {
+            console.log('WebSocket connection established.');
+            socket.send(JSON.stringify({
+                'message': 'Hello from Client',
+                'sender': 'qualquer coisa sendo enviada para o servidor'
+            }));
+        };
+
+        socket.onerror = function(error) {
+            console.error('WebSocket error: ', error);
+        };
+
+        socket.onclose = function(event) {
+            console.log('WebSocket connection closed with code: ' + event.code);
+        };
+
+        function displayMessage(message) {
+            // Criar um novo elemento de parágrafo <p>
+            const newMessage = document.createElement('p');
+            // Definir o texto da mensagem recebida como conteúdo do elemento
+            newMessage.textContent = message;
+            // Adicionar o elemento à div de mensagens na página
+            const messageContainer = document.getElementById('message-container');
+            messageContainer.appendChild(newMessage);
+        }
+
+
+
+        // Enviar mensagem para o WebSocket quando a página for carregada
+        window.onload = function() {
+            socket.send(JSON.stringify({
+                'type': 'enviar_mensagem',
+                'message':'Hello from Client',
+                'sender': 'qualquer coisa sendo enviada para o servidor'
+            }));
+        };
+    </script>
 {% endblock scripts %}
 
 {% block content %}
-    DASHBOARD ALUGUEL {{user.loja}}
+    <div id="message-container">
+        <!-- Aqui serão exibidas as mensagens MQTT recebidas -->
+    </div>
 {% endblock %}

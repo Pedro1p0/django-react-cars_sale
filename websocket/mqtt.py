@@ -12,12 +12,12 @@ def on_connect(client, userdata, flags, rc):
         print("Failed to connect to MQTT broker")
 
 def on_message(client, userdata, msg):
-    print('publicaram algo')
-    print("Received message:", msg.payload.decode())
+    # print('publicaram algo')
+    # print("Received message:", msg.payload.decode())
 
     # Enviar a mensagem recebida para o consumidor WebSocket
-    async_to_sync(channel_layer.group_send)("Teste_Loja1", {
-        "type": "enviar_mensagem",
+    async_to_sync(channel_layer.group_send)("loja1", {
+        "type": "send_mqtt_message",
         "mensagem": msg.payload.decode(),
     })
 

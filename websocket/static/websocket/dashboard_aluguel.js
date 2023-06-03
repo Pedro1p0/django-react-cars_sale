@@ -1,6 +1,6 @@
 console.log("Ola mundo")
 
-const socket = new WebSocket('ws://' + window.location.host + '/ws/dashboard_aluguel/')
+const socket = new WebSocket('ws://' + window.location.host + '/ws/loja1/')
 
 socket.onmessage = function(e){
     console.log('Server ' + e.data);
