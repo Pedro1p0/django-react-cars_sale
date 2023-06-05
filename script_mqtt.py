@@ -26,7 +26,7 @@ while True:
     mensagem = 'Mensagem aleatoria: ' + str(random.randint(1, 100))
     
     # Publica a mensagem no tópico
-    client.publish(topic, mensagem, placa_do_carro)
+    client.publish(topic, mensagem)
     
     # Aguarda 5 segundos
     time.sleep(5)

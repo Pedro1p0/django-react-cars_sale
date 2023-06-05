@@ -55,7 +55,7 @@ class DashboardAluguelConsumer(AsyncJsonWebsocketConsumer):
 
     async def send_mqtt_message(self, event):
         print(event)
-        carro = Carro.objects.filter(placa=event['placa_do_carro'])
+        #carro = Carro.objects.filter(placa=event['placa_do_carro'])
 
         if 'mensagem' in event:
             mensagem = event['mensagem']
