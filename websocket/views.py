@@ -7,7 +7,11 @@ from django.http import HttpResponseRedirect
 
 def salaView(request):
     loja_qs = Loja.objects.all()
-    return render(request, 'websocket/sala.html', {'loja_qs':loja_qs})
+    if request.method == 'POST':
+        new_room = request.POST.get('new-room')
+        obj, _ = Loja.objects.get_or_create(slug=new_room)
+        return redirect('websocket:dashboard_aluguel', slug=obj.slug)
+    return render(request, 'websocket/sala.html', {'qs':loja_qs})
 
 # View que está com o WEBSOCKET
 def dashboard_aluguel(request, slug):
