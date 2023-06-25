@@ -2,67 +2,108 @@
 {% load static %}
 
 {% block scripts %}
-    
-    <script>
-        // Função para receber e exibir as mensagens MQTT
-        function receiveMessage(message) {
-            var messageContainer = document.getElementById('message-container');
-            var newMessage = document.createElement('p');
-            newMessage.textContent = message;
-            messageContainer.appendChild(newMessage);
+
+<script>
+    let connected = false; // Inicialmente, o script não está conectado
+    let lastMessageTime = null;
+    let timeoutId = null;
+    let isDisconnectMessageDisplayed = false;
+
+    function setConnectionStatusColor(color) {
+        const connectionStatus = document.getElementById('connection-status');
+        connectionStatus.style.backgroundColor = color;
+    }
+
+    function checkResponseTimeout() {
+        const currentTime = new Date().getTime();
+        if (lastMessageTime && currentTime - lastMessageTime > 10000) {
+            connected = false;
+            console.log('O script se desconectou.');
+            setConnectionStatusColor('yellow');
         }
+    }
 
-        // Conectar ao WebSocket
-        console.log("Olá mundo");
+    function receiveMessage(message) {
+        connected = true;
+        lastMessageTime = new Date().getTime();
+        console.log('Server: ' + message);
+        displayMessage(message);
+        if (timeoutId) {
+            clearTimeout(timeoutId);
+        }
+        timeoutId = setTimeout(checkResponseTimeout, 10000); // Aguardar 10 segundos para verificar o tempo de resposta
+        setConnectionStatusColor('green'); // Atualizar a cor para verde quando uma mensagem for recebida
+    }
 
-        const socket = new WebSocket('ws://' + window.location.host + '/ws/loja1/'); 
+    function displayMessage(message) {
+        const messageContainer = document.getElementById('message-container');
+        const newMessage = document.createElement('p');
+        newMessage.textContent = message;
+        messageContainer.appendChild(newMessage);
+    }
 
-        socket.onmessage = function(e) {
-            console.log('Server: ' + e.data);
-            displayMessage(e.data); // Exibir a mensagem na página
+    document.addEventListener('DOMContentLoaded', function () {
+        const socket = new WebSocket('ws://' + window.location.host + '/ws/loja1/');
+
+        socket.onmessage = function (event) {
+            receiveMessage(event.data);
         };
 
-        socket.onopen = function(e) {
+        socket.onopen = function () {
             console.log('WebSocket connection established.');
+            connected = true; // O script está conectado
+            setConnectionStatusColor('red'); // Iniciar com a cor vermelha
             socket.send(JSON.stringify({
                 'message': 'Hello from Client',
                 'sender': 'qualquer coisa sendo enviada para o servidor'
             }));
         };
 
-        socket.onerror = function(error) {
+        socket.onerror = function (error) {
             console.error('WebSocket error: ', error);
+            connected = false; // Ocorreu um erro de conexão
+            setConnectionStatusColor('red');
         };
 
-        socket.onclose = function(event) {
+        socket.onclose = function (event) {
             console.log('WebSocket connection closed with code: ' + event.code);
+            if (event.code !== 1000) {
+                if (!isDisconnectMessageDisplayed) {
+                    alert('A conexão foi interrompida.'); // Exibir mensagem ao usuário
+                    isDisconnectMessageDisplayed = true;
+                }
+                connected = false; // O script foi desconectado
+                setConnectionStatusColor('yellow');
+            }
         };
 
-        function displayMessage(message) {
-            // Criar um novo elemento de parágrafo <p>
-            const newMessage = document.createElement('p');
-            // Definir o texto da mensagem recebida como conteúdo do elemento
-            newMessage.textContent = message;
-            // Adicionar o elemento à div de mensagens na página
-            const messageContainer = document.getElementById('message-container');
-            messageContainer.appendChild(newMessage);
-        }
+        // Verificar periodicamente se a conexão está ativa
+        setInterval(function () {
+            if (!connected) {
+                console.log('A conexão foi interrompida!');
+                setConnectionStatusColor('red');
+            } else {
+                setConnectionStatusColor('green');
+            }
+        }, 5000); // Verificar a cada 5 segundos
+    });
+
+</script>
 
 
-
-        // Enviar mensagem para o WebSocket quando a página for carregada
-        window.onload = function() {
-            socket.send(JSON.stringify({
-                'type': 'enviar_mensagem',
-                'message':'Hello from Client',
-                'sender': 'qualquer coisa sendo enviada para o servidor'
-            }));
-        };
-    </script>
 {% endblock scripts %}
 
 {% block content %}
-    <div id="message-container">
-        <!-- Aqui serão exibidas as mensagens MQTT recebidas -->
+
+<div class="card" style="width: 18rem; max-height: 200px; min-height: 200px; min-width: 100%;overflow-y: auto;">
+    <div class="card-header sticky-top bg-white" style="z-index: 1;">
+        <div id="connection-status" style="width: 10px; height: 10px; border-radius: 50%; display: inline-block; background-color: red;"></div> Status de Conexão
     </div>
+    <div class="card-body">
+        <div id="message-container">
+            <!-- Aqui serão exibidas as mensagens MQTT recebidas -->
+        </div>
+    </div>
+</div>
+
 {% endblock %}
